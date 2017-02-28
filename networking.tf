@@ -3,16 +3,23 @@ resource "google_compute_network" "cr460" {
   auto_create_subnetworks = "false"
 }
 
-resource "google_compute_subnetwork" "east1-dmz" {
-  name          = "east1-dmz"
+resource "google_compute_subnetwork" "public_Network" {
+  name          = "public_Network"
+  ip_cidr_range = "10.0.1.0/24"
+  network       = "${google_compute_network.cr460.self_link}"
+  region        = "us-east1"
+}
+
+resource "google_compute_subnetwork" "workload_network" {
+  name          = "workload_network"
   ip_cidr_range = "172.16.1.0/24"
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
 }
 
-resource "google_compute_subnetwork" "east1-internal" {
-  name          = "east1-internal"
-  ip_cidr_range = "10.0.1.0/24"
+resource "google_compute_subnetwork" "backend_network" {
+  name          = "backend_network"
+  ip_cidr_range = "192.168.1.0/24"
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
 }
