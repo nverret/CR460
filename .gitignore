@@ -2,3 +2,5 @@ account.json
 tfstate
 tfstate.backup
 terraform.exe
+terraform.tfstate
+terraform.tfstate.backup
