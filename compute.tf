@@ -1,7 +1,9 @@
-resource "google_compute_instance" "instance1" {
-  name         = "intance1"
+resource "google_compute_instance" "vault" {
+  name         = "vault"
   machine_type = "f1-micro"
   zone         = "us-east1-b"
+
+  tags = ["tag-subnet-public"]
 
   disk {
     image = "coreos-cloud/coreos-stable"
@@ -10,7 +12,6 @@ resource "google_compute_instance" "instance1" {
   network_interface {
     subnetwork = "${google_compute_subnetwork.east1-dmz.name}"
     access_config {
-
     }
   }
 

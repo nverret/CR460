@@ -1,3 +1,5 @@
+
+// region NETWORK
 resource "google_compute_network" "cr460" {
   name                    = "cr460"
   auto_create_subnetworks = "false"
@@ -23,14 +25,28 @@ resource "google_compute_subnetwork" "backend_network" {
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
 }
+// endregion NETWORK
 
-resource "google_compute_firewall" "web" {
-  name    = "web"
+// region FIREWALL
+resource "google_compute_firewall" "etcd" {
+  name    = "etcd"
   network = "${google_compute_network.cr460.name}"
   allow {
     protocol = "tcp"
-    ports    = ["80"]
+    ports    = ["2379","2380"]
   }
+  source_ranges = ["10.0.1.0/24","172.16.1.0/24"]
+  target_tags = ["tag-subnet-workload","tag-subnet-backend"]
+}
+
+resource "google_compute_firewall" "https" {
+  name    = "https"
+  network = "${google_compute_network.cr460.name}"
+  allow {
+    protocol = "tcp"
+    ports    = ["443"]
+  }
+  target_tags = ["tag-subnet-public"]
 }
 
 resource "google_compute_firewall" "ssh" {
@@ -40,8 +56,9 @@ resource "google_compute_firewall" "ssh" {
     protocol = "tcp"
     ports    = ["22"]
   }
-
 }
+// endregion FIREWALL
+
 
 resource "google_dns_record_set" "www" {
   name = "www.nverret.cr460lab.com."
