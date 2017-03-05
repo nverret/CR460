@@ -1,30 +1,10 @@
-resource "google_compute_instance" "vault" {
-  name         = "vault"
-  machine_type = "f1-micro"
-  zone         = "us-east1-b"
-
-  tags = ["tag-subnet-public"]
-
-  disk {
-    image = "coreos-cloud/coreos-stable"
-  }
-
-  network_interface {
-    subnetwork = "${google_compute_subnetwork.east1-dmz.name}"
-    access_config {
-    }
-  }
-
-  metadata_startup_script = "apt-get -y install apache2 && systemctl start apache2"
-}
 
 
-resource "google_compute_instance_template" "cr460" {
-  name        = "cr460-test"
+/*
+resource "google_compute_instance_template" "coreos-template" {
+  name        = "worker"
   machine_type         = "f1-micro"
   can_ip_forward       = false
-
-
 
   // Create a new boot disk from an image
   disk {
@@ -33,11 +13,9 @@ resource "google_compute_instance_template" "cr460" {
     boot = true
   }
 
-
   network_interface {
     subnetwork = "${google_compute_subnetwork.east1-dmz.name}"
   }
-
 }
 
 resource "google_compute_instance_group_manager" "cr460" {
@@ -49,8 +27,8 @@ resource "google_compute_instance_group_manager" "cr460" {
 
 }
 
-resource "google_compute_autoscaler" "cr460" {
-  name   = "cr460"
+resource "google_compute_autoscaler" "workers" {
+  name   = "workers"
   zone   = "us-east1-b"
   target = "${google_compute_instance_group_manager.cr460.self_link}"
 
@@ -63,4 +41,4 @@ resource "google_compute_autoscaler" "cr460" {
       target = 0.5
     }
   }
-}
+}*/
