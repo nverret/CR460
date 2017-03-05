@@ -5,22 +5,22 @@ resource "google_compute_network" "cr460" {
   auto_create_subnetworks = "false"
 }
 
-resource "google_compute_subnetwork" "public_Network" {
-  name          = "public_Network"
+resource "google_compute_subnetwork" "public-network" {
+  name          = "public-network"
   ip_cidr_range = "10.0.1.0/24"
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
 }
 
-resource "google_compute_subnetwork" "workload_network" {
-  name          = "workload_network"
+resource "google_compute_subnetwork" "workload-network" {
+  name          = "workload-network"
   ip_cidr_range = "172.16.1.0/24"
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
 }
 
-resource "google_compute_subnetwork" "backend_network" {
-  name          = "backend_network"
+resource "google_compute_subnetwork" "backend-network" {
+  name          = "backend-network"
   ip_cidr_range = "192.168.1.0/24"
   network       = "${google_compute_network.cr460.self_link}"
   region        = "us-east1"
@@ -67,5 +67,5 @@ resource "google_dns_record_set" "www" {
 
   managed_zone = "nverret"
 
-  rrdatas = ["${google_compute_instance.instance1.network_interface.0.access_config.0.assigned_nat_ip}"]
+  rrdatas = ["${google_compute_instance.vault.network_interface.0.access_config.0.assigned_nat_ip}"]
 }

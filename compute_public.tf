@@ -10,7 +10,7 @@ resource "google_compute_instance" "vault" {
   }
 
   network_interface {
-    subnetwork = "${google_compute_subnetwork.public_Network.name}"
+    subnetwork = "${google_compute_subnetwork.public-network.name}"
     access_config {
     }
   }
@@ -29,7 +29,7 @@ resource "google_compute_instance" "vault" {
     }
 
     network_interface {
-      subnetwork = "${google_compute_subnetwork.public_Network.name}"
+      subnetwork = "${google_compute_subnetwork.public-network.name}"
       access_config {
       }
     }
