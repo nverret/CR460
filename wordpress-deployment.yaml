@@ -1,0 +1,25 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: wordpress-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: wordpress
+    spec:
+      containers:
+      - name: wordpress-ubuntu
+        image: nverret/wordpress:5
+        ports:
+        - containerPort: 80
+        env:
+          - name: DB_PASSWORD
+            value: '!Soleil123!'
+          - name: DB_HOST
+            value: '104.196.207.75'
+          - name: DB_USER
+            value: 'root'
+          - name: DB_NAME
+            value: 'wordpress'

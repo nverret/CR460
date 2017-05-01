@@ -4,3 +4,7 @@ tfstate.backup
 terraform.exe
 terraform.tfstate
 terraform.tfstate.backup
+wordpress
+Df.bck
+wp-config.php-template
+.kube
