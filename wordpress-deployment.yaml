@@ -16,10 +16,38 @@ spec:
         - containerPort: 80
         env:
           - name: DB_PASSWORD
-            value: '!Soleil123!'
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-db-credentials
+                key: password
           - name: DB_HOST
-            value: '104.196.207.75'
+            value: '127.0.0.1:3306'
           - name: DB_USER
-            value: 'root'
+            valueFrom:
+              secretKeyRef:
+                name: cloudsql-db-credentials
+                key: username
           - name: DB_NAME
             value: 'wordpress'
+      - image: gcr.io/cloudsql-docker/gce-proxy:1.09
+        name: cloudsql-proxy
+        command: ["/cloud_sql_proxy", "--dir=/cloudsql",
+                  "-instances=cr460-157300:us-east1:cloudsql-db=tcp:3306",
+                  "-credential_file=/secrets/cloudsql/credentials.json"]
+        volumeMounts:
+          - name: cloudsql-instance-credentials
+            mountPath: /secrets/cloudsql
+            readOnly: true
+          - name: ssl-certs
+            mountPath: /etc/ssl/certs
+          - name: cloudsql
+            mountPath: /cloudsql
+      volumes:
+          - name: cloudsql-instance-credentials
+            secret:
+              secretName: cloudsql-instance-credentials
+          - name: ssl-certs
+            hostPath:
+              path: /etc/ssl/certs
+          - name: cloudsql
+            emptyDir:
