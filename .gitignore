@@ -1,3 +1,4 @@
+.gitignore
 account.json
 tfstate
 tfstate.backup
@@ -8,3 +9,4 @@ wordpress
 Df.bck
 wp-config.php-template
 .kube
+cr460-cloudsqlserviceaccount.json

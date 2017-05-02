@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: wordpress-ubuntu
-        image: nverret/wordpress:5
+        image: nverret/wordpress:6
         ports:
         - containerPort: 80
         env:
